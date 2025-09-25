@@ -4,7 +4,7 @@ const path = require('path');
 const csv = require('csv-parser');
 const cors = require('cors');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // حل مشكلة favicon.ico 404
 app.get('/favicon.ico', (req, res) => res.status(204));
@@ -25,9 +25,6 @@ function readCSV(filePath) {
       .on('error', (error) => reject(error));
   });
 }
-app.get("/healthz", (req, res) => {
-  res.send("OK");
-});
 
 app.get('/weather-sales', async (req, res) => {
   try {
@@ -461,6 +458,10 @@ app.get('/sunshineHours_Purchase', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Failed to process sunshineHours_Purchase data' });
   }
+});
+
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running on Railway!");
 });
 
 
